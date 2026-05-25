@@ -1,0 +1,34 @@
+name: Daily Venue Refresh
+
+on:
+  schedule:
+    - cron: "5 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Refresh venue data
+        run: python scripts/daily_refresh.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/site-data.json data/site-data.js
+          git diff --cached --quiet && exit 0
+          git commit -m "Daily venue refresh"
+          git push

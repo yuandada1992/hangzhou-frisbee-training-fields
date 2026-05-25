@@ -23,9 +23,7 @@
       <div class="ambient ambient-c"></div>
 
       <header class="hero">
-        <div class="hero-kicker reveal">
-          Hangzhou Frisbee Training Fieldbook / 2026-05-26
-        </div>
+        <div class="hero-kicker reveal" id="hero-kicker">Hangzhou Frisbee Training Fieldbook</div>
         <div class="hero-grid">
           <div class="hero-copy">
             <p class="eyebrow reveal">杭州拱墅万达广场 + 城西银泰城</p>
@@ -34,10 +32,10 @@
               <span>适合长期夜训的足球场地</span>
             </h1>
             <p class="hero-text reveal">
-              这份筛选只保留了公开信息里
+              这份页面会持续保留公开信息里
               <strong>能看出对外租赁</strong>、且更适合
               <strong>工作日 19:00-22:00 飞盘训练</strong>
-              的场地。你最关心的灯光、价格、停车、淋浴、订场入口和长期包场可行性，都被压进这一页里。
+              的场地。核心 5 公里板块只放高确定性候选，拱墅区、余杭区、西湖区的新线索会自动进入扩展板块。
             </p>
             <div class="hero-actions reveal">
               <a href="#venues" class="button button-solid">直接看场地</a>
@@ -48,17 +46,17 @@
           <aside class="hero-panel reveal">
             <div class="stat-card">
               <span class="stat-label">主清单</span>
-              <strong class="stat-value" data-count="5">0</strong>
+              <strong class="stat-value" data-stat="coreCount">0</strong>
               <span class="stat-note">公开可核到的重点候选</span>
             </div>
             <div class="stat-card">
               <span class="stat-label">优先关注</span>
-              <strong class="stat-value" data-count="3">0</strong>
+              <strong class="stat-value" data-stat="priorityCount">0</strong>
               <span class="stat-note">更适合长期固定夜训</span>
             </div>
             <div class="stat-card">
               <span class="stat-label">预算线</span>
-              <strong class="stat-value">300</strong>
+              <strong class="stat-value" data-stat="budgetLine">300</strong>
               <span class="stat-note">元/小时以下优先</span>
             </div>
           </aside>
@@ -73,6 +71,7 @@
             <span>停车便利</span>
             <span>有淋浴更好</span>
             <span>工作日晚 7-10 点</span>
+            <span>自动扩展巡检</span>
             <span>夜间灯光</span>
             <span>人工草优先</span>
             <span>飞盘分组训练</span>
@@ -80,6 +79,7 @@
             <span>停车便利</span>
             <span>有淋浴更好</span>
             <span>工作日晚 7-10 点</span>
+            <span>自动扩展巡检</span>
           </div>
         </div>
       </header>
@@ -90,37 +90,7 @@
             <p class="eyebrow">Editorial Shortlist</p>
             <h2>先看结论</h2>
           </div>
-
-          <div class="summary-grid">
-            <article class="summary-card reveal">
-              <span class="summary-index">01</span>
-              <h3>最像主训练场</h3>
-              <p>
-                <strong>亚运公园足球训练场</strong>、<strong>T9
-                Stadium 登云店</strong>、<strong>城北体育公园足球场</strong>
-                是这一轮里最适合长期周中夜训的三处。
-              </p>
-            </article>
-            <article class="summary-card reveal">
-              <span class="summary-index">02</span>
-              <h3>最有机会压预算</h3>
-              <p>
-                <strong>城北体育公园足球场</strong>
-                最有希望靠近或低于你的 300 元/小时线，
-                <strong>亚运公园足球训练场</strong> 的部分时段也值得继续问。
-              </p>
-            </article>
-            <article class="summary-card reveal">
-              <span class="summary-index">03</span>
-              <h3>整队战术 vs 分组训练</h3>
-              <p>
-                要跑整队战术，优先看
-                <strong>亚运公园</strong> 和 <strong>运河体育公园体育场</strong>；
-                要高频训练、控成本，<strong>T9</strong> 和
-                <strong>城北</strong> 更灵活。
-              </p>
-            </article>
-          </div>
+          <div class="summary-grid" id="summary-grid"></div>
         </section>
 
         <section class="section ranking">
@@ -128,30 +98,7 @@
             <p class="eyebrow">Best Fit Ranking</p>
             <h2>长期夜训优先顺序</h2>
           </div>
-
-          <div class="ranking-list">
-            <div class="ranking-item reveal">
-              <div class="ranking-no">A</div>
-              <div>
-                <h3>亚运公园足球训练场</h3>
-                <p>位置稳、灯光明确、价格带最接近你的目标，适合长期训练班底。</p>
-              </div>
-            </div>
-            <div class="ranking-item reveal">
-              <div class="ranking-no">B</div>
-              <div>
-                <h3>T9 Stadium 足球场（登云店）</h3>
-                <p>夜场成熟、订场入口清晰、人工草友好，适合稳定训练和分组跑战术。</p>
-              </div>
-            </div>
-            <div class="ranking-item reveal">
-              <div class="ranking-no">C</div>
-              <div>
-                <h3>杭州城北体育公园足球场</h3>
-                <p>预算友好概率最高，停车条件好，但需要进一步核实具体晚间档期和订场电话。</p>
-              </div>
-            </div>
-          </div>
+          <div class="ranking-list" id="ranking-list"></div>
         </section>
 
         <section class="section venues" id="venues">
@@ -159,120 +106,12 @@
             <p class="eyebrow">Core Training Radius</p>
             <h2>拱墅万达&amp;城西银泰5公里内的训练场地</h2>
             <p class="section-intro">
-              这是你最初限定条件下的核心板块。这里优先保留更适合
+              这是核心板块。这里只保留更适合
               <strong>工作日晚 19:00-22:00</strong>
-              的训练场地，后续如果发现新的 5 公里内场地，也会优先补到这一组。
+              的训练候选，只有在公开来源和基础信息都更稳定时，新的场地才会进入这一组。
             </p>
           </div>
-
-          <div class="venue-grid">
-            <article class="venue-card reveal" data-tilt>
-              <div class="venue-topline">
-                <span class="venue-tag">优先候选</span>
-                <span class="venue-distance">双中心 5km 内</span>
-              </div>
-              <h3>亚运公园足球训练场</h3>
-              <p class="venue-meta">拱墅区 · 学院北路 999 号</p>
-              <p class="venue-body">
-                更像真正能拿来做长期训练的训练场地。公开信息显示晚间灯光完善，
-                常规开放到 22:00，价格参考带落在
-                <strong>平日约 150-250 元/小时</strong>。
-              </p>
-              <ul class="venue-list">
-                <li><strong>电话：</strong>公开独立号码未稳定检到，可先问园区咨询电话</li>
-                <li><strong>咨询：</strong>0571-88070808 / 0571-88036688</li>
-                <li><strong>订场：</strong>美团、大众点评；也可尝试 AI动杭州 / 亚运场馆在线</li>
-                <li><strong>配套：</strong>灯光明确，停车方便，公开信息倾向于无独立淋浴</li>
-                <li><strong>判断：</strong>最值得优先去锁周中 19:00-22:00 固定档</li>
-              </ul>
-              <div class="price-band">参考价位：150-250 元/小时</div>
-            </article>
-
-            <article class="venue-card reveal" data-tilt>
-              <div class="venue-topline">
-                <span class="venue-tag">优先候选</span>
-                <span class="venue-distance">靠近城西银泰</span>
-              </div>
-              <h3>T9 Stadium 足球场（登云店）</h3>
-              <p class="venue-meta">拱墅区 · 余杭塘路 201 号-3</p>
-              <p class="venue-body">
-                人工草、夜场、城市球场体系都很成熟，适合飞盘做分组和高频训练。
-                晚间价格通常会抬高，公开信息参考带是
-                <strong>晚间约 300-450 元/小时</strong>。
-              </p>
-              <ul class="venue-list">
-                <li><strong>电话：</strong>13764880611</li>
-                <li><strong>订场：</strong>T9 Stadium 微信小程序、美团、大众点评</li>
-                <li><strong>配套：</strong>停车相对方便，储物柜明确，淋浴公开信息不稳定</li>
-                <li><strong>会员：</strong>有月卡/季卡/年卡与企业固定时段方案线索</li>
-                <li><strong>判断：</strong>如果接受略高预算，这是最好落地的长期夜训点之一</li>
-              </ul>
-              <div class="price-band">参考价位：300-450 元/小时（夜场）</div>
-            </article>
-
-            <article class="venue-card reveal" data-tilt>
-              <div class="venue-topline">
-                <span class="venue-tag">预算优先</span>
-                <span class="venue-distance">靠近拱墅万达</span>
-              </div>
-              <h3>杭州城北体育公园足球场</h3>
-              <p class="venue-meta">拱墅区 · 白石路 125 号 / 126 号一带</p>
-              <p class="venue-body">
-                这处更像性价比选手。公开网页没放出清晰足球场单独报价，但从同类场地价格和公园属性判断，
-                <strong>最有机会逼近你的 300 元线</strong>。
-              </p>
-              <ul class="venue-list">
-                <li><strong>电话：</strong>足球场独立号码未稳定检到</li>
-                <li><strong>咨询线索：</strong>0571-88250561（园区公开咨询）</li>
-                <li><strong>订场：</strong>美团 / 大众点评搜索“城北体育公园 足球场”</li>
-                <li><strong>配套：</strong>停车好；园区其他馆有淋浴，但足球场淋浴未明确</li>
-                <li><strong>判断：</strong>非常值得作为低预算备选去电话确认固定包场</li>
-              </ul>
-              <div class="price-band">参考判断：大概率最接近 300 元/小时以内</div>
-            </article>
-
-            <article class="venue-card reveal" data-tilt>
-              <div class="venue-topline">
-                <span class="venue-tag">大场地</span>
-                <span class="venue-distance">双中心 5km 内</span>
-              </div>
-              <h3>拱墅运河体育公园体育场</h3>
-              <p class="venue-meta">拱墅区 · 学院北路 999 号</p>
-              <p class="venue-body">
-                这是更偏正式的大场地选项，适合整队战术和更完整的场地宽度需求，但价格通常不会是最友好的。
-                对长期锁档来说，它更像高规格备选。
-              </p>
-              <ul class="venue-list">
-                <li><strong>电话：</strong>0571-86996568（公开咨询）</li>
-                <li><strong>订场：</strong>拱墅运河体育公园公众号、浙里办、AI动杭州</li>
-                <li><strong>配套：</strong>停车条件强，夜间照明明确，淋浴未见稳定公开说明</li>
-                <li><strong>场地：</strong>公开描述偏向 11 人制标准大场</li>
-                <li><strong>判断：</strong>如果你们很在意完整空间，这是最像比赛场地的选项</li>
-              </ul>
-              <div class="price-band">价格状态：公开网页未见稳定晚间实价</div>
-            </article>
-
-            <article class="venue-card reveal" data-tilt>
-              <div class="venue-topline">
-                <span class="venue-tag">屋顶城市场</span>
-                <span class="venue-distance">靠近城西银泰边缘</span>
-              </div>
-              <h3>凯迪拉克颐高城市足球场</h3>
-              <p class="venue-meta">西湖区 · 黄姑山路 29 号颐高产业园停车楼顶层</p>
-              <p class="venue-body">
-                屋顶城市球场的风格很鲜明，适合做节奏快的分区训练。位置对城西银泰方向更友好，
-                但它处在 5 公里圈层边缘，且淋浴与实时价格公开度较弱。
-              </p>
-              <ul class="venue-list">
-                <li><strong>电话：</strong>13429611877</li>
-                <li><strong>订场：</strong>浙里办 → 亚运场馆在线 → 嵌入式场地</li>
-                <li><strong>配套：</strong>卫生间、休息区、停车线索明确；淋浴未明确</li>
-                <li><strong>场地：</strong>公开报道提到 2 片 8 人制足球场</li>
-                <li><strong>判断：</strong>作为城西方向的城市夜训补位点值得保留</li>
-              </ul>
-              <div class="price-band">价格状态：公开网页未见稳定晚间实价</div>
-            </article>
-          </div>
+          <div class="venue-grid" id="core-venue-grid"></div>
         </section>
 
         <section class="section district-expansion" id="district-expansion">
@@ -280,42 +119,14 @@
             <p class="eyebrow">District Expansion Watch</p>
             <h2>拱墅区 / 余杭区 / 西湖区扩展搜索场地</h2>
             <p class="section-intro">
-              这个板块不再受 5 公里限制。后续每日搜索到的
-              <strong>新场地、补充场地、可疑似可租赁场地</strong>
-              会优先追加在这里，再根据是否适合长期飞盘夜训做标记。
+              这个板块不再受 5 公里限制。每日巡检抓到的
+              <strong>新增场地、补充场地、疑似可租赁场地</strong>
+              会先进入这里，再按是否适合长期飞盘夜训做标记。
             </p>
           </div>
 
-          <div class="summary-grid expansion-grid">
-            <article class="summary-card reveal">
-              <span class="summary-index">GS</span>
-              <h3>拱墅区扩展池</h3>
-              <p>
-                用来收纳拱墅区范围内后续新发现的训练场地，包括价格未公开、但已出现对外开放线索的场地。
-              </p>
-            </article>
-            <article class="summary-card reveal">
-              <span class="summary-index">YH</span>
-              <h3>余杭区扩展池</h3>
-              <p>
-                用来补充余杭区范围内更大、更便宜，或者更适合整队跑战术的场地，方便你们做预算替代方案。
-              </p>
-            </article>
-            <article class="summary-card reveal">
-              <span class="summary-index">XH</span>
-              <h3>西湖区扩展池</h3>
-              <p>
-                用来收纳西湖区方向的城市球场、屋顶场和高校周边可租赁草地，优先补夜场与停车条件较好的点。
-              </p>
-            </article>
-          </div>
-
-          <div class="update-panel reveal">
-            <div class="update-pill">今日新增场地：0</div>
-            <p>
-              这部分我已经预留好了位置。后续每次更新，我会把新增场地直接补到这个板块，并和核心 5 公里板块分开展示。
-            </p>
-          </div>
+          <div class="update-panel reveal" id="expansion-update-panel"></div>
+          <div class="district-board" id="district-board"></div>
         </section>
 
         <section class="section table-section">
@@ -337,53 +148,7 @@
                   <th>长期包场判断</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>亚运公园足球训练场</td>
-                  <td>园区咨询为主</td>
-                  <td>明确支持</td>
-                  <td>高</td>
-                  <td>弱</td>
-                  <td>强</td>
-                  <td>很值得优先沟通</td>
-                </tr>
-                <tr>
-                  <td>T9 Stadium 登云店</td>
-                  <td>13764880611</td>
-                  <td>明确支持</td>
-                  <td>中</td>
-                  <td>待确认</td>
-                  <td>中上</td>
-                  <td>会员和企业时段线索较强</td>
-                </tr>
-                <tr>
-                  <td>城北体育公园足球场</td>
-                  <td>园区咨询为主</td>
-                  <td>明确支持</td>
-                  <td>最高</td>
-                  <td>待确认</td>
-                  <td>强</td>
-                  <td>适合做预算优先备选</td>
-                </tr>
-                <tr>
-                  <td>拱墅运河体育公园体育场</td>
-                  <td>0571-86996568</td>
-                  <td>明确支持</td>
-                  <td>低</td>
-                  <td>待确认</td>
-                  <td>强</td>
-                  <td>更像高规格备选</td>
-                </tr>
-                <tr>
-                  <td>凯迪拉克颐高城市足球场</td>
-                  <td>13429611877</td>
-                  <td>明确支持</td>
-                  <td>中</td>
-                  <td>待确认</td>
-                  <td>中上</td>
-                  <td>城西方向补位</td>
-                </tr>
-              </tbody>
+              <tbody id="comparison-body"></tbody>
             </table>
           </div>
         </section>
@@ -394,33 +159,7 @@
             <h2>这页该怎么用</h2>
           </div>
 
-          <div class="notes-grid">
-            <article class="note-card reveal">
-              <h3>信息状态</h3>
-              <p>
-                这版结果整理于 <strong>2026-05-26</strong>。
-                公开网页能核到的最稳定信息是地址、电话、订场入口和价格区间；周中
-                19:00-22:00 的实时价格，很多场地仍要以订场页面或电话确认为准。
-              </p>
-            </article>
-            <article class="note-card reveal">
-              <h3>最该补的最后一步</h3>
-              <p>
-                真正决定长期训练能不能落地的，是
-                <strong>“每周固定两次是否能锁同一时间段”</strong>。
-                这一步基本都要靠电话或微信进一步确认，公开页通常不会写死。
-              </p>
-            </article>
-            <article class="note-card reveal">
-              <h3>建议顺序</h3>
-              <p>
-                先打 <strong>亚运公园足球训练场</strong> 和
-                <strong>T9</strong>，再问 <strong>城北体育公园</strong>。
-                如果预算允许、又想拿大场，再把 <strong>运河体育公园体育场</strong>
-                纳入谈判名单。
-              </p>
-            </article>
-          </div>
+          <div class="notes-grid" id="notes-grid"></div>
         </section>
 
         <section class="section sources" id="sources">
@@ -429,48 +168,12 @@
             <h2>信息来源</h2>
           </div>
 
-          <div class="sources-grid reveal">
-            <a href="https://huodong.com/venue/detail/ey4hn" target="_blank" rel="noreferrer">
-              亚运公园足球训练场 - 活动网
-            </a>
-            <a href="https://huodong.com/venue/detail/ey4hb" target="_blank" rel="noreferrer">
-              拱墅运河体育公园体育场 - 活动网
-            </a>
-            <a href="https://huodong.com/venue/detail/ey4hD" target="_blank" rel="noreferrer">
-              T9 Stadium 足球场（登云店） - 活动网
-            </a>
-            <a href="https://www.gongshu.gov.cn/art/2022/7/25/art_1228920_59070493.html" target="_blank" rel="noreferrer">
-              拱墅区政府预约入口说明
-            </a>
-            <a href="https://www.hangzhou2022.cn/xwzx/jdxw/ttxw/202207/t20220711_50679.shtml" target="_blank" rel="noreferrer">
-              杭州亚运会官网：运河体育公园预约方式
-            </a>
-            <a href="https://hz.bendibao.com/news/2022721/125231.shtm" target="_blank" rel="noreferrer">
-              杭州本地宝：运河体育公园咨询电话
-            </a>
-            <a href="https://weixin.bestdo.com/wx/item/info?mer_item_id=10200971000150" target="_blank" rel="noreferrer">
-              城北体育公园相关配套说明
-            </a>
-            <a href="https://www.changhegroup.com/news/225.html" target="_blank" rel="noreferrer">
-              城北体育公园地址线索
-            </a>
-            <a href="https://www.hangzhou2022.cn/sqzc/hzsq/202211/t20221103_53343.shtml" target="_blank" rel="noreferrer">
-              杭州亚运会官网：颐高城市足球场
-            </a>
-            <a href="https://hk.trip.com/travel-guide/attraction/hangzhou/city-80191382/" target="_blank" rel="noreferrer">
-              颐高城市足球场电话线索
-            </a>
-            <a href="https://hk.trip.com/travel-guide/attraction/hangzhou/city-143710988" target="_blank" rel="noreferrer">
-              澎湃五人制足球场地址线索（用于周边排查）
-            </a>
-            <a href="https://hzdaily.hangzhou.com.cn/dskb/2025/05/29/article_detail_2_20250529A082.html" target="_blank" rel="noreferrer">
-              都市快报：杭州屋顶足球场报道
-            </a>
-          </div>
+          <div class="sources-grid reveal" id="sources-grid"></div>
         </section>
       </main>
     </div>
 
+    <script src="./data/site-data.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

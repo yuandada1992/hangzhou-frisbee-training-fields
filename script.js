@@ -1,7 +1,10 @@
 const SHEET_ID = "1Yg4RlTk9MIoebHswOScZGqcUfN3XJGMpTqgUOCcE9Sw";
 const SHEET_GID = "0";
 const SHEET_EDIT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?gid=${SHEET_GID}#gid=${SHEET_GID}`;
-const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+const SHEET_RANGE = "A1:I999";
+const SHEET_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&range=${encodeURIComponent(
+  SHEET_RANGE,
+)}&headers=1&tqx=out:json`;
 
 const columns = [
   "场地名称",
@@ -23,54 +26,6 @@ const sheetLink = document.querySelector("#sheet-link");
 
 editLink.href = SHEET_EDIT_URL;
 sheetLink.href = SHEET_EDIT_URL;
-
-const parseCsv = (text) => {
-  const rows = [];
-  let current = "";
-  let row = [];
-  let quoted = false;
-
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i];
-    const next = text[i + 1];
-
-    if (char === "\"") {
-      if (quoted && next === "\"") {
-        current += "\"";
-        i += 1;
-      } else {
-        quoted = !quoted;
-      }
-      continue;
-    }
-
-    if (char === "," && !quoted) {
-      row.push(current);
-      current = "";
-      continue;
-    }
-
-    if ((char === "\n" || char === "\r") && !quoted) {
-      if (char === "\r" && next === "\n") {
-        i += 1;
-      }
-      row.push(current);
-      rows.push(row);
-      row = [];
-      current = "";
-      continue;
-    }
-
-    current += char;
-  }
-
-  if (current || row.length) {
-    row.push(current);
-    rows.push(row);
-  }
-
-  return rows;
-};
 
 const escapeHtml = (value = "") =>
   value
@@ -113,29 +68,78 @@ const renderRows = (records) => {
     .join("");
 };
 
-const loadSheet = async () => {
-  try {
-    const response = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+const readCellValue = (cell) => {
+  if (!cell) {
+    return "";
+  }
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch sheet: ${response.status}`);
+  if (typeof cell.f === "string" && cell.f.trim()) {
+    return cell.f;
+  }
+
+  if (cell.v === null || cell.v === undefined) {
+    return "";
+  }
+
+  return String(cell.v);
+};
+
+const gvizToRecords = (response) => {
+  const table = response?.table;
+  const headers = (table?.cols || []).map((col) => col.label || "");
+  const rows = table?.rows || [];
+
+  return rows
+    .map((row) =>
+      columns.reduce((record, column) => {
+        const index = headers.indexOf(column);
+        record[column] = index >= 0 ? readCellValue(row.c?.[index]) : "";
+        return record;
+      }, {}),
+    )
+    .filter((record) => record["场地名称"]);
+};
+
+const loadSheet = () =>
+  new Promise((resolve, reject) => {
+    const scriptId = "sheet-gviz-loader";
+    const previous = document.getElementById(scriptId);
+    if (previous) {
+      previous.remove();
     }
 
-    const csv = await response.text();
-    const rows = parseCsv(csv).filter((row) => row.some((cell) => cell.trim() !== ""));
-    const header = rows[0] || [];
-    const body = rows.slice(1);
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.src = `${SHEET_GVIZ_URL}&_=${Date.now()}`;
+    script.async = true;
 
-    const records = body
-      .map((row) =>
-        columns.reduce((record, column) => {
-          const index = header.indexOf(column);
-          record[column] = index >= 0 ? row[index] || "" : "";
-          return record;
-        }, {}),
-      )
-      .filter((record) => record["场地名称"]);
+    const cleanup = () => {
+      script.remove();
+      window.google = undefined;
+    };
 
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Failed to load Google visualization data"));
+    };
+
+    window.google = {
+      visualization: {
+        Query: {
+          setResponse: (response) => {
+            cleanup();
+            resolve(gvizToRecords(response));
+          },
+        },
+      },
+    };
+
+    document.body.appendChild(script);
+  });
+
+const refreshTable = async () => {
+  try {
+    const records = await loadSheet();
     renderRows(records);
     syncStatus.textContent = "协作表数据已同步";
     updatedAt.textContent = `最后同步：${new Date().toLocaleString("zh-CN", {
@@ -155,4 +159,4 @@ const loadSheet = async () => {
   }
 };
 
-loadSheet();
+refreshTable();

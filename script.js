@@ -88,11 +88,15 @@ const gvizToRecords = (response) => {
   const table = response?.table;
   const headers = (table?.cols || []).map((col) => col.label || "");
   const rows = table?.rows || [];
+  const headerIndexes = columns.map((column, index) => {
+    const headerIndex = headers.indexOf(column);
+    return headerIndex >= 0 ? headerIndex : index;
+  });
 
   return rows
     .map((row) =>
-      columns.reduce((record, column) => {
-        const index = headers.indexOf(column);
+      columns.reduce((record, column, columnIndex) => {
+        const index = headerIndexes[columnIndex];
         record[column] = index >= 0 ? readCellValue(row.c?.[index]) : "";
         return record;
       }, {}),

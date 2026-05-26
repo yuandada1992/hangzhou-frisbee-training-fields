@@ -1,279 +1,158 @@
-const siteData = window.siteData;
+const SHEET_ID = "1Yg4RlTk9MIoebHswOScZGqcUfN3XJGMpTqgUOCcE9Sw";
+const SHEET_GID = "0";
+const SHEET_EDIT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit?gid=${SHEET_GID}#gid=${SHEET_GID}`;
+const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
-if (!siteData) {
-  throw new Error("Missing site data");
-}
+const columns = [
+  "场地名称",
+  "地址",
+  "联系电话",
+  "资料来源链接",
+  "是否可租赁",
+  "价格",
+  "备注",
+  "跟进人",
+  "联系人",
+];
 
-const $ = (selector) => document.querySelector(selector);
+const tableBody = document.querySelector("#table-body");
+const syncStatus = document.querySelector("#sync-status");
+const updatedAt = document.querySelector("#updated-at");
+const editLink = document.querySelector("#edit-link");
+const sheetLink = document.querySelector("#sheet-link");
 
-const setText = (selector, value) => {
-  const element = $(selector);
+editLink.href = SHEET_EDIT_URL;
+sheetLink.href = SHEET_EDIT_URL;
 
-  if (element) {
-    element.textContent = value;
+const parseCsv = (text) => {
+  const rows = [];
+  let current = "";
+  let row = [];
+  let quoted = false;
+
+  for (let i = 0; i < text.length; i += 1) {
+    const char = text[i];
+    const next = text[i + 1];
+
+    if (char === "\"") {
+      if (quoted && next === "\"") {
+        current += "\"";
+        i += 1;
+      } else {
+        quoted = !quoted;
+      }
+      continue;
+    }
+
+    if (char === "," && !quoted) {
+      row.push(current);
+      current = "";
+      continue;
+    }
+
+    if ((char === "\n" || char === "\r") && !quoted) {
+      if (char === "\r" && next === "\n") {
+        i += 1;
+      }
+      row.push(current);
+      rows.push(row);
+      row = [];
+      current = "";
+      continue;
+    }
+
+    current += char;
+  }
+
+  if (current || row.length) {
+    row.push(current);
+    rows.push(row);
+  }
+
+  return rows;
+};
+
+const escapeHtml = (value = "") =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll("\"", "&quot;");
+
+const renderRows = (records) => {
+  if (!records.length) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="9" class="placeholder">协作表里暂时还没有可显示的数据。</td>
+      </tr>
+    `;
+    return;
+  }
+
+  tableBody.innerHTML = records
+    .map((record) => {
+      const source = record["资料来源链接"] || "";
+      const sourceCell = source
+        ? `<a href="${escapeHtml(source)}" target="_blank" rel="noreferrer">打开来源</a>`
+        : "";
+
+      return `
+        <tr>
+          <td>${escapeHtml(record["场地名称"] || "")}</td>
+          <td>${escapeHtml(record["地址"] || "")}</td>
+          <td class="phone">${escapeHtml(record["联系电话"] || "")}</td>
+          <td>${sourceCell}</td>
+          <td>${escapeHtml(record["是否可租赁"] || "")}</td>
+          <td>${escapeHtml(record["价格"] || "")}</td>
+          <td>${escapeHtml(record["备注"] || "")}</td>
+          <td>${escapeHtml(record["跟进人"] || "")}</td>
+          <td>${escapeHtml(record["联系人"] || "")}</td>
+        </tr>
+      `;
+    })
+    .join("");
+};
+
+const loadSheet = async () => {
+  try {
+    const response = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch sheet: ${response.status}`);
+    }
+
+    const csv = await response.text();
+    const rows = parseCsv(csv).filter((row) => row.some((cell) => cell.trim() !== ""));
+    const header = rows[0] || [];
+    const body = rows.slice(1);
+
+    const records = body
+      .map((row) =>
+        columns.reduce((record, column) => {
+          const index = header.indexOf(column);
+          record[column] = index >= 0 ? row[index] || "" : "";
+          return record;
+        }, {}),
+      )
+      .filter((record) => record["场地名称"]);
+
+    renderRows(records);
+    syncStatus.textContent = "协作表数据已同步";
+    updatedAt.textContent = `最后同步：${new Date().toLocaleString("zh-CN", {
+      hour12: false,
+    })}`;
+  } catch (error) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="9" class="placeholder">
+          现在还没拿到协作表公开数据。先点上方“手机端直接编辑”进入协作表查看或修改。
+        </td>
+      </tr>
+    `;
+    syncStatus.textContent = "协作表暂时未公开读取";
+    updatedAt.textContent = "最后同步：读取失败";
+    console.error(error);
   }
 };
 
-const renderSummary = () => {
-  const container = $("#summary-grid");
-
-  container.innerHTML = siteData.summary
-    .map(
-      (item) => `
-        <article class="summary-card reveal">
-          <span class="summary-index">${item.index}</span>
-          <h3>${item.title}</h3>
-          <p>${item.body}</p>
-        </article>
-      `,
-    )
-    .join("");
-};
-
-const renderRanking = () => {
-  const container = $("#ranking-list");
-
-  container.innerHTML = siteData.ranking
-    .map(
-      (item) => `
-        <div class="ranking-item reveal">
-          <div class="ranking-no">${item.rank}</div>
-          <div>
-            <h3>${item.name}</h3>
-            <p>${item.body}</p>
-          </div>
-        </div>
-      `,
-    )
-    .join("");
-};
-
-const renderCoreVenues = () => {
-  const container = $("#core-venue-grid");
-
-  container.innerHTML = siteData.coreVenues
-    .map(
-      (venue) => `
-        <article class="venue-card reveal" data-tilt>
-          <div class="venue-topline">
-            <span class="venue-tag">${venue.tag}</span>
-            <span class="venue-distance">${venue.distance}</span>
-          </div>
-          <h3>${venue.name}</h3>
-          <p class="venue-meta">${venue.meta}</p>
-          <p class="venue-body">${venue.body}</p>
-          <ul class="venue-list">
-            ${venue.details.map((detail) => `<li>${detail}</li>`).join("")}
-          </ul>
-          <div class="price-band">${venue.price}</div>
-        </article>
-      `,
-    )
-    .join("");
-};
-
-const renderExpansion = () => {
-  const panel = $("#expansion-update-panel");
-  const board = $("#district-board");
-  const districts = siteData.districtExpansion.districts;
-  const newCount = siteData.districtExpansion.todayNewCount;
-
-  panel.innerHTML = `
-    <div class="update-pill">今日新增场地：${newCount}</div>
-    <p>最近一次自动巡检：${siteData.meta.lastAutoScan}。扩展池会先吸收公开网页里的新线索，再按是否适合飞盘长期夜训做核验和升级。</p>
-  `;
-
-  board.innerHTML = districts
-    .map(
-      (district) => `
-        <article class="district-card reveal">
-          <div class="district-topline">
-            <span class="summary-index">${district.code}</span>
-            <span class="district-count">${district.venues.length} 处收录</span>
-          </div>
-          <h3>${district.name}</h3>
-          <p class="district-intro">${district.intro}</p>
-          <div class="district-list">
-            ${district.venues
-              .map(
-                (venue) => `
-                  <div class="district-item">
-                    <div class="district-item-topline">
-                      <span class="district-status">${venue.status}</span>
-                      <a href="${venue.sourceUrl}" target="_blank" rel="noreferrer">来源</a>
-                    </div>
-                    <h4>${venue.name}</h4>
-                    <p class="district-item-meta">${venue.address}</p>
-                    <ul class="district-item-list">
-                      <li>电话：${venue.phone}</li>
-                      <li>${venue.price}</li>
-                      <li>${venue.lighting}</li>
-                      <li>订场：${venue.booking}</li>
-                    </ul>
-                    <p class="district-item-note">${venue.note}</p>
-                  </div>
-                `,
-              )
-              .join("")}
-          </div>
-        </article>
-      `,
-    )
-    .join("");
-};
-
-const renderComparison = () => {
-  const container = $("#comparison-body");
-
-  container.innerHTML = siteData.comparison
-    .map(
-      (item) => `
-        <tr>
-          <td>${item.name}</td>
-          <td>${item.phone}</td>
-          <td>${item.lighting}</td>
-          <td>${item.budget}</td>
-          <td>${item.shower}</td>
-          <td>${item.parking}</td>
-          <td>${item.verdict}</td>
-        </tr>
-      `,
-    )
-    .join("");
-};
-
-const renderNotes = () => {
-  const container = $("#notes-grid");
-
-  container.innerHTML = siteData.notes
-    .map(
-      (item) => `
-        <article class="note-card reveal">
-          <h3>${item.title}</h3>
-          <p>${item.body}</p>
-        </article>
-      `,
-    )
-    .join("");
-};
-
-const renderSources = () => {
-  const container = $("#sources-grid");
-
-  container.innerHTML = siteData.sources
-    .map(
-      (item) => `
-        <a href="${item.url}" target="_blank" rel="noreferrer">
-          ${item.label}
-        </a>
-      `,
-    )
-    .join("");
-};
-
-const animateCounters = () => {
-  const statValues = {
-    coreCount: siteData.coreVenues.length,
-    priorityCount: siteData.coreVenues.filter((venue) => venue.priority).length,
-    budgetLine: Number(siteData.meta.budgetLine),
-  };
-
-  const counters = document.querySelectorAll("[data-stat]");
-  const counterObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        const element = entry.target;
-        const statKey = element.dataset.stat;
-        const target = Number(statValues[statKey] ?? 0);
-        const duration = 1100;
-        const start = performance.now();
-
-        const tick = (now) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          element.textContent = String(Math.round(target * eased));
-
-          if (progress < 1) {
-            requestAnimationFrame(tick);
-          } else {
-            element.textContent = String(target);
-          }
-        };
-
-        requestAnimationFrame(tick);
-        counterObserver.unobserve(element);
-      });
-    },
-    { threshold: 0.45 },
-  );
-
-  counters.forEach((counter) => counterObserver.observe(counter));
-};
-
-const observeReveals = () => {
-  const revealItems = document.querySelectorAll(".reveal");
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.16,
-      rootMargin: "0px 0px -8% 0px",
-    },
-  );
-
-  revealItems.forEach((item, index) => {
-    item.style.transitionDelay = `${Math.min(index * 45, 320)}ms`;
-    revealObserver.observe(item);
-  });
-};
-
-const initTilt = () => {
-  const tiltCards = document.querySelectorAll("[data-tilt]");
-
-  tiltCards.forEach((card) => {
-    const damp = 16;
-
-    const handleMove = (event) => {
-      const bounds = card.getBoundingClientRect();
-      const offsetX = event.clientX - bounds.left;
-      const offsetY = event.clientY - bounds.top;
-      const rotateY = ((offsetX / bounds.width) - 0.5) * damp;
-      const rotateX = (0.5 - offsetY / bounds.height) * damp;
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
-    };
-
-    const reset = () => {
-      card.style.transform = "";
-    };
-
-    card.addEventListener("mousemove", handleMove);
-    card.addEventListener("mouseleave", reset);
-    card.addEventListener("blur", reset);
-  });
-};
-
-const renderPage = () => {
-  setText("#hero-kicker", siteData.meta.heroKicker);
-  renderSummary();
-  renderRanking();
-  renderCoreVenues();
-  renderExpansion();
-  renderComparison();
-  renderNotes();
-  renderSources();
-  observeReveals();
-  animateCounters();
-  initTilt();
-};
-
-renderPage();
+loadSheet();

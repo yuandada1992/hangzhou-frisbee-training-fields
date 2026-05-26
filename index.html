@@ -3,177 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>杭州飞盘训练场筛选</title>
+    <title>杭州飞盘训练场协作表</title>
     <meta
       name="description"
-      content="围绕杭州拱墅万达广场与城西银泰城 5 公里范围，筛选适合飞盘队长期夜训的可租赁足球场地。"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
-      rel="stylesheet"
+      content="杭州飞盘训练场协作表，手机端可查看，协作表中可实时编辑。"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="page-shell">
-      <div class="ambient ambient-a"></div>
-      <div class="ambient ambient-b"></div>
-      <div class="ambient ambient-c"></div>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">Hangzhou Frisbee Fields</p>
+        <h1>杭州飞盘训练场协作表</h1>
+        <p class="intro">
+          这里先专注场地信息本身。网页负责查看，协作表负责实时编辑。
+          你和朋友在手机上打开后，可以直接去修改电话、补联系人、更新价格和备注。
+        </p>
+        <div class="hero-actions">
+          <a
+            id="edit-link"
+            class="button button-solid"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            手机端直接编辑
+          </a>
+          <a
+            id="sheet-link"
+            class="button button-ghost"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            打开协作表原页
+          </a>
+        </div>
+        <div class="meta-strip">
+          <span id="sync-status">正在同步协作表数据…</span>
+          <span id="updated-at">最后同步：加载中</span>
+        </div>
+      </section>
 
-      <header class="hero">
-        <div class="hero-kicker reveal" id="hero-kicker">Hangzhou Frisbee Training Fieldbook</div>
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow reveal">杭州拱墅万达广场 + 城西银泰城</p>
-            <h1 class="hero-title reveal">
-              <span class="headline-number">5 公里内</span>
-              <span>适合长期夜训的足球场地</span>
-            </h1>
-            <p class="hero-text reveal">
-              这份页面会持续保留公开信息里
-              <strong>能看出对外租赁</strong>、且更适合
-              <strong>工作日 19:00-22:00 飞盘训练</strong>
-              的场地。核心 5 公里板块只放高确定性候选，拱墅区、余杭区、西湖区的新线索会自动进入扩展板块。
+      <section class="table-card">
+        <div class="table-head">
+          <div>
+            <h2>场地总表</h2>
+            <p>
+              字段包括：场地名称、地址、联系电话、资料来源链接、是否可租赁、价格、备注、跟进人、联系人。
             </p>
-            <div class="hero-actions reveal">
-              <a href="#venues" class="button button-solid">直接看场地</a>
-              <a href="#sources" class="button button-ghost">看信息来源</a>
-            </div>
           </div>
-
-          <aside class="hero-panel reveal">
-            <div class="stat-card">
-              <span class="stat-label">主清单</span>
-              <strong class="stat-value" data-stat="coreCount">0</strong>
-              <span class="stat-note">公开可核到的重点候选</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">优先关注</span>
-              <strong class="stat-value" data-stat="priorityCount">0</strong>
-              <span class="stat-note">更适合长期固定夜训</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">预算线</span>
-              <strong class="stat-value" data-stat="budgetLine">300</strong>
-              <span class="stat-note">元/小时以下优先</span>
-            </div>
-          </aside>
         </div>
 
-        <div class="ticker">
-          <div class="ticker-track">
-            <span>夜间灯光</span>
-            <span>人工草优先</span>
-            <span>飞盘分组训练</span>
-            <span>长期锁档</span>
-            <span>停车便利</span>
-            <span>有淋浴更好</span>
-            <span>工作日晚 7-10 点</span>
-            <span>自动扩展巡检</span>
-            <span>夜间灯光</span>
-            <span>人工草优先</span>
-            <span>飞盘分组训练</span>
-            <span>长期锁档</span>
-            <span>停车便利</span>
-            <span>有淋浴更好</span>
-            <span>工作日晚 7-10 点</span>
-            <span>自动扩展巡检</span>
-          </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>场地名称</th>
+                <th>地址</th>
+                <th>联系电话</th>
+                <th>资料来源</th>
+                <th>是否可租赁</th>
+                <th>价格</th>
+                <th>备注</th>
+                <th>跟进人</th>
+                <th>联系人</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td colspan="9" class="placeholder">正在读取协作表…</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </header>
+      </section>
 
-      <main>
-        <section class="section summary" id="summary">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Editorial Shortlist</p>
-            <h2>先看结论</h2>
-          </div>
-          <div class="summary-grid" id="summary-grid"></div>
-        </section>
+      <section class="tips">
+        <div class="tip">
+          <h3>怎么更新</h3>
+          <p>点击上方“手机端直接编辑”，进入协作表修改。保存后，这个网页刷新就会同步。</p>
+        </div>
+        <div class="tip">
+          <h3>建议填写</h3>
+          <p>优先补准电话、联系人、是否可租赁、真实价格，以及你的跟进结论。</p>
+        </div>
+        <div class="tip">
+          <h3>后续收集</h3>
+          <p>后面我会继续按你限定范围补足球场，免费和收费的都收录进同一张表。</p>
+        </div>
+      </section>
+    </main>
 
-        <section class="section ranking">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Best Fit Ranking</p>
-            <h2>长期夜训优先顺序</h2>
-          </div>
-          <div class="ranking-list" id="ranking-list"></div>
-        </section>
-
-        <section class="section venues" id="venues">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Core Training Radius</p>
-            <h2>拱墅万达&amp;城西银泰5公里内的训练场地</h2>
-            <p class="section-intro">
-              这是核心板块。这里只保留更适合
-              <strong>工作日晚 19:00-22:00</strong>
-              的训练候选，只有在公开来源和基础信息都更稳定时，新的场地才会进入这一组。
-            </p>
-          </div>
-          <div class="venue-grid" id="core-venue-grid"></div>
-        </section>
-
-        <section class="section district-expansion" id="district-expansion">
-          <div class="section-heading reveal">
-            <p class="eyebrow">District Expansion Watch</p>
-            <h2>拱墅区 / 余杭区 / 西湖区扩展搜索场地</h2>
-            <p class="section-intro">
-              这个板块不再受 5 公里限制。每日巡检抓到的
-              <strong>新增场地、补充场地、疑似可租赁场地</strong>
-              会先进入这里，再按是否适合长期飞盘夜训做标记。
-            </p>
-          </div>
-
-          <div class="update-panel reveal" id="expansion-update-panel"></div>
-          <div class="district-board" id="district-board"></div>
-        </section>
-
-        <section class="section table-section">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Comparison Table</p>
-            <h2>一页比较</h2>
-          </div>
-
-          <div class="table-wrap reveal">
-            <table>
-              <thead>
-                <tr>
-                  <th>场地</th>
-                  <th>电话</th>
-                  <th>夜场灯光</th>
-                  <th>预算匹配</th>
-                  <th>淋浴</th>
-                  <th>停车</th>
-                  <th>长期包场判断</th>
-                </tr>
-              </thead>
-              <tbody id="comparison-body"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="section notes">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Use Notes</p>
-            <h2>这页该怎么用</h2>
-          </div>
-
-          <div class="notes-grid" id="notes-grid"></div>
-        </section>
-
-        <section class="section sources" id="sources">
-          <div class="section-heading reveal">
-            <p class="eyebrow">Research Sources</p>
-            <h2>信息来源</h2>
-          </div>
-
-          <div class="sources-grid reveal" id="sources-grid"></div>
-        </section>
-      </main>
-    </div>
-
-    <script src="./data/site-data.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

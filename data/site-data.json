@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generatedAt": "2026-06-13",
-    "lastAutoScan": "2026-06-13 15:37",
-    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-06-13",
+    "generatedAt": "2026-06-14",
+    "lastAutoScan": "2026-06-14 16:06",
+    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-06-14",
     "budgetLine": "300"
   },
   "summary": [
@@ -122,7 +122,7 @@
     }
   ],
   "districtExpansion": {
-    "todayNewCount": 5,
+    "todayNewCount": 0,
     "districts": [
       {
         "code": "GS",
@@ -130,7 +130,7 @@
         "intro": "用于收纳拱墅区范围内后续新发现的训练场地，包括价格未公开、但已出现对外开放线索的场地。",
         "venues": [
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "浙江树人大学拱宸桥校区北校区足球场",
             "address": "拱墅区 · 杭州市拱墅区树人街8号，是校内标准11人制天然草足球场，主要用于校内体育教学、学生训练及校际比赛",
             "phone": "待补公开电话",
@@ -170,7 +170,7 @@
         "intro": "用于补充余杭区范围内更大、更便宜，或者更适合整队跑战术的场地，方便你们做预算替代方案。",
         "venues": [
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "双陈村足球场",
             "address": "余杭区 · 杭州市余杭区仁河大道786号，是一处服务于本地社区及周边足球爱好者的标准5人制或7人制足球场地",
             "phone": "待补公开电话",
@@ -181,7 +181,7 @@
             "sourceUrl": "https://huodong.com/venue/detail/ey49J"
           },
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "浙江余杭绿城足球学校6号场地",
             "address": "余杭区 · 杭州市余杭区运溪路与闲沈路交叉口西北400米",
             "phone": "待补公开电话",
@@ -192,7 +192,7 @@
             "sourceUrl": "http://huodong.com/venue/detail/ey49f"
           },
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "杭州懒懒足球俱乐部有限公司",
             "address": "余杭区 · 杭州市余杭区华立科技园181社区内，是一家专注于五人制或七人制小型足球活动的社区型足球场地",
             "phone": "18989883878",
@@ -203,7 +203,7 @@
             "sourceUrl": "https://huodong.com/venue/detail/ey40Q"
           },
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "茶语公园-足球场",
             "address": "余杭区 · 杭州市余杭区竹径茶语东南侧约390米，是一处社区型户外足球活动场地，服务于周边居民及业余足球爱好者",
             "phone": "待补公开电话",

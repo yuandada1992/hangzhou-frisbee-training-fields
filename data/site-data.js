@@ -1,8 +1,8 @@
 window.siteData = {
   "meta": {
-    "generatedAt": "2026-07-07",
-    "lastAutoScan": "2026-07-07 15:26",
-    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-07-07",
+    "generatedAt": "2026-07-08",
+    "lastAutoScan": "2026-07-08 14:19",
+    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-07-08",
     "budgetLine": "300"
   },
   "summary": [

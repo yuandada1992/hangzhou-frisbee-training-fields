@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generatedAt": "2026-09-08",
-    "lastAutoScan": "2026-09-08 16:22",
-    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-09-08",
+    "generatedAt": "2026-09-09",
+    "lastAutoScan": "2026-09-09 16:25",
+    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-09-09",
     "budgetLine": "300"
   },
   "summary": [
@@ -122,7 +122,7 @@
     }
   ],
   "districtExpansion": {
-    "todayNewCount": 1,
+    "todayNewCount": 0,
     "districts": [
       {
         "code": "GS",
@@ -130,7 +130,7 @@
         "intro": "用于收纳拱墅区范围内后续新发现的训练场地，包括价格未公开、但已出现对外开放线索的场地。",
         "venues": [
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "杭州足球中心",
             "address": "拱墅区 · 杭州市上城区，是足球场馆",
             "phone": "待补公开电话",

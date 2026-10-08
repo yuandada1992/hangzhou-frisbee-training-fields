@@ -1,8 +1,8 @@
 window.siteData = {
   "meta": {
-    "generatedAt": "2026-10-07",
-    "lastAutoScan": "2026-10-07 18:37",
-    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-10-07",
+    "generatedAt": "2026-10-08",
+    "lastAutoScan": "2026-10-08 18:58",
+    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-10-08",
     "budgetLine": "300"
   },
   "summary": [
@@ -122,7 +122,7 @@ window.siteData = {
     }
   ],
   "districtExpansion": {
-    "todayNewCount": 1,
+    "todayNewCount": 0,
     "districts": [
       {
         "code": "GS",
@@ -192,7 +192,7 @@ window.siteData = {
         "intro": "用于补充余杭区范围内更大、更便宜，或者更适合整队跑战术的场地，方便你们做预算替代方案。",
         "venues": [
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "中泰足球训练基地",
             "address": "余杭区 · 杭州市余杭区，是足球场馆",
             "phone": "待补公开电话",

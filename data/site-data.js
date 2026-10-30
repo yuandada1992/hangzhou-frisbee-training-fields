@@ -1,8 +1,8 @@
 window.siteData = {
   "meta": {
-    "generatedAt": "2026-10-29",
-    "lastAutoScan": "2026-10-29 18:29",
-    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-10-29",
+    "generatedAt": "2026-10-30",
+    "lastAutoScan": "2026-10-30 18:30",
+    "heroKicker": "Hangzhou Frisbee Training Fieldbook / 2026-10-30",
     "budgetLine": "300"
   },
   "summary": [
@@ -122,7 +122,7 @@ window.siteData = {
     }
   ],
   "districtExpansion": {
-    "todayNewCount": 2,
+    "todayNewCount": 0,
     "districts": [
       {
         "code": "GS",
@@ -130,7 +130,7 @@ window.siteData = {
         "intro": "用于收纳拱墅区范围内后续新发现的训练场地，包括价格未公开、但已出现对外开放线索的场地。",
         "venues": [
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "上城区体育中心",
             "address": "拱墅区 · 杭州市上城区，是足球场馆",
             "phone": "待补公开电话",
@@ -141,7 +141,7 @@ window.siteData = {
             "sourceUrl": "https://huodong.com/venue/detail/ey4h1"
           },
           {
-            "status": "今日新发现",
+            "status": "已收录",
             "name": "杭州市萧山区华丰足球俱乐部",
             "address": "拱墅区 · 杭州市萧山区华丰足球俱乐部 - 杭州足球场馆 - 活动网",
             "phone": "待补公开电话",
